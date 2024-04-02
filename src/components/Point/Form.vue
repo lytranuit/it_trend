@@ -1,0 +1,82 @@
+<template>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <b>Mã:<i class="text-danger">*</i></b>
+                <div class="pt-1">
+                    <input type="text" class="form-control" v-model="model.code" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <b>Tên tiếng việt:<i class="text-danger">*</i></b>
+                <div class="pt-1">
+                    <input type="text" class="form-control" v-model="model.name" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <b>Tên tiếng anh:</b>
+                <div class="pt-1">
+                    <input type="text" class="form-control" v-model="model.name_en" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <b>Vị trí:<i class="text-danger">*</i></b>
+                <div class="pt-1">
+                    <LocationTreeSelect v-model="model.location_id"></LocationTreeSelect>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <b>Đối tượng:<i class="text-danger">*</i></b>
+                <div class="pt-1">
+                    <select class="form-control form-control-sm" v-model="model.object_id">
+                        <option v-for="(item, index) in objects" :value="item.id" :key="item.id">{{ item.name }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <b>Chỉ tiêu:<i class="text-danger">*</i></b>
+                <div class="pt-1">
+                    <select class="form-control form-control-sm" v-model="model.target_id">
+                        <option v-for="(item, index) in targets" :value="item.id" :key="item.id">{{ item.name }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script setup>
+import { onMounted, ref, watch, computed } from "vue";
+import { storeToRefs } from 'pinia';
+import { usePoint } from '../../stores/Point';
+import { useGeneral } from '../../stores/general';
+import Api from "../../api/Api";
+import LocationTreeSelect from "../TreeSelect/LocationTreeSelect.vue";
+const store_Point = usePoint();
+const store_general = useGeneral();
+const { model } = storeToRefs(store_Point);
+const { objects, targets } = storeToRefs(store_general);
+
+onMounted(() => {
+    Api.objects().then((res) => {
+        objects.value = res;
+    })
+    Api.targets().then((res) => {
+        targets.value = res;
+    })
+})
+</script>
