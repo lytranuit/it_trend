@@ -45,7 +45,8 @@
             <router-link class="nav-link" to="/object"><i class="ti-control-record"></i>Đối tượng</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/target"><i class="ti-control-record"></i>Chỉ tiêu</router-link>
+            <router-link class="nav-link" to="/target"><i class="ti-control-record"></i>Chỉ tiêu/PP lấy
+              mẫu</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/location"><i class="ti-control-record"></i>Vị trí</router-link>

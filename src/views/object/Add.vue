@@ -22,6 +22,12 @@
                     <input type="text" class="form-control" v-model="data.name_en" />
                   </div>
                 </div>
+                <div class="form-group row">
+                  <b class="col-12 col-lg-2 col-form-label">Điểm lấy mẫu có nhiều chỉ tiêu:</b>
+                  <div class="col-12 col-lg-4 pt-1">
+                    <InputSwitch v-model="data.is_multi_target" inputClass="p-inputtext-sm" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -32,6 +38,7 @@
 </template>
 
 <script setup>
+import InputSwitch from 'primevue/inputswitch';
 import { ref } from "vue";
 import { onMounted, computed } from "vue";
 

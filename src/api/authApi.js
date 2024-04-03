@@ -14,9 +14,6 @@ export default {
       .then((res) => res.data);
   },
 
-  users() {
-    return repository.get(`/${area}/${resoure}/users`).then((res) => res.data);
-  },
   login(params) {
     return repository
       .post(`/${area}/${resoure}/Login`, params, {

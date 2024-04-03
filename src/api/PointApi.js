@@ -38,11 +38,10 @@ export default {
   },
   get(id) {
     return repository
-      .get(
-        `/${area}/${resoure}/Get`,
-        { params: { id: id } },
-        { headers: authHeader() }
-      )
+      .get(`/${area}/${resoure}/Get`, {
+        params: { id: id },
+        headers: authHeader(),
+      })
       .then((res) => res.data);
   },
 };

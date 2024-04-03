@@ -22,6 +22,12 @@
                     <input type="text" class="form-control" v-model="data.name_en" />
                   </div>
                 </div>
+                <div class="form-group row">
+                  <b class="col-12 col-lg-2 col-form-label">Điểm lấy mẫu có nhiều chỉ tiêu:</b>
+                  <div class="col-12 col-lg-4 pt-1">
+                    <InputSwitch v-model="data.is_multi_target" inputClass="p-inputtext-sm" />
+                  </div>
+                </div>
               </div>
               <div class="col-md-12">
                 <PickList v-model="targets" listStyle="height:342px" dataKey="id" breakpoint="1400px">
@@ -49,6 +55,7 @@ import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
 import Button from "primevue/button";
 import PickList from 'primevue/picklist';
+import InputSwitch from 'primevue/inputswitch';
 import ObjectApi from "../../../api/ObjectApi";
 import { useToast } from "primevue/usetoast";
 import TargetApi from "../../../api/TargetApi";

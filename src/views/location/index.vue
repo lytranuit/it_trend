@@ -1,7 +1,6 @@
 <template>
   <div class="row clearfix">
     <Toast />
-    <ConfirmDialog></ConfirmDialog>
     <div class="col-12">
       <h5 class="card-header drag-handle">
         <Button label="Tạo mới" icon="pi pi-plus" class="p-button-success p-button-sm mr-2" @click="openNew"></Button>
@@ -60,7 +59,6 @@ import Dialog from "primevue/dialog";
 import InputText from "primevue/inputtext";
 
 import Toast from "primevue/toast";
-import ConfirmDialog from "primevue/confirmdialog";
 import { useToast } from "primevue/usetoast";
 import LocationApi from "../../api/LocationApi";
 import { useConfirm } from "primevue/useconfirm";

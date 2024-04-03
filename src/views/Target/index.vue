@@ -49,8 +49,6 @@
         </div>
       </section>
     </div>
-
-    <ConfirmDialog></ConfirmDialog>
     <Loading :waiting="waiting"></Loading>
   </div>
 </template>
@@ -64,7 +62,6 @@ import DataTable from "primevue/datatable";
 import { FilterMatchMode } from "primevue/api";
 import Column from "primevue/column"; ////Datatable
 import InputText from "primevue/inputtext";
-import ConfirmDialog from "primevue/confirmdialog";
 import { useConfirm } from "primevue/useconfirm";
 import Loading from "../../components/Loading.vue";
 import { useTarget } from "../../stores/Target";

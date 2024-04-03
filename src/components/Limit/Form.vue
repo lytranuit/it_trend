@@ -16,14 +16,6 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <b>Vị trí:<i class="text-danger">*</i></b>
-                        <div class="pt-1">
-                            <LocationTreeSelect v-model="model.location_id"></LocationTreeSelect>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
                         <b>Chỉ tiêu:</b>
                         <div class="pt-1">
                             <select class="form-control form-control-sm" v-model="model.target_id">

@@ -14,6 +14,11 @@ export default {
       .get(`/${area}/${resoure}/objects`, { headers: authHeader() })
       .then((res) => res.data);
   },
+  points() {
+    return repository
+      .get(`/${area}/${resoure}/points`, { headers: authHeader() })
+      .then((res) => res.data);
+  },
   targets() {
     return repository
       .get(`/${area}/${resoure}/targets`, { headers: authHeader() })
@@ -22,6 +27,14 @@ export default {
   locations() {
     return repository
       .get(`/${area}/${resoure}/locations`, { headers: authHeader() })
+      .then((res) => res.data);
+  },
+  targetsOfObject(object_id) {
+    return repository
+      .get(`/${area}/${resoure}/targetsOfObject`, {
+        params: { object_id: object_id },
+        headers: authHeader(),
+      })
       .then((res) => res.data);
   },
   locationsWithPoint() {

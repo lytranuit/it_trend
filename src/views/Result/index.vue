@@ -2,9 +2,8 @@
   <div class="row clearfix">
     <div class="col-12">
       <h5 class="card-header drag-handle">
-        <RouterLink to="Result/add">
-          <Button label="Tạo mới" icon="pi pi-plus" class="p-button-success p-button-sm mr-2"></Button>
-        </RouterLink>
+        <Button label="Tạo mới" icon="pi pi-plus" class="p-button-success p-button-sm mr-2" @click="openNew"></Button>
+        <PopupAdd @save="loadLazyData"></PopupAdd>
       </h5>
       <section class="card card-fluid">
         <div class="card-body" style="overflow: auto; position: relative">
@@ -26,14 +25,23 @@
               :showFilterMatchModes="false">
               <template #body="slotProps">
                 <template v-if="col.data == 'id'">
-                  <RouterLink :to="'/Result/edit/' + slotProps.data[col.data]">
-                    <i class="fas fa-pencil-alt mr-2"></i>
-                    {{ slotProps.data[col.data] }}
-                  </RouterLink>
+                  <a class="" @click="edit(slotProps.data)" href="#"> <i class="fas fa-pencil-alt mr-2"></i>
+                    {{ slotProps.data[col.data] }}</a>
                 </template>
-                <template v-else-if="col.data == 'name'">
-                  <p>{{ slotProps.data[col.data] }}</p>
-                  <p><i>{{ slotProps.data['name_en'] }}</i></p>
+                <template v-else-if="col.data == 'point'">
+                  <p>{{ slotProps.data.point?.code }} {{ slotProps.data.point?.name }}</p>
+                  <p><i>{{ slotProps.data.point?.code }} {{ slotProps.data.point?.name_en }}</i></p>
+                </template>
+                <template v-else-if="col.data == 'obj'">
+                  <p>{{ slotProps.data.obj?.name }}</p>
+                  <p><i>{{ slotProps.data.obj?.name_en }}</i></p>
+                </template>
+                <template v-else-if="col.data == 'target'">
+                  <p>{{ slotProps.data.target?.name }}</p>
+                  <p><i>{{ slotProps.data.target?.name_en }}</i></p>
+                </template>
+                <template v-else-if="col.data == 'date'">
+                  {{ formatDate(slotProps.data[col.data]) }}
                 </template>
                 <div v-else v-html="slotProps.data[col.data]"></div>
               </template>
@@ -52,8 +60,6 @@
         </div>
       </section>
     </div>
-
-    <ConfirmDialog></ConfirmDialog>
     <Loading :waiting="waiting"></Loading>
   </div>
 </template>
@@ -67,9 +73,9 @@ import DataTable from "primevue/datatable";
 import { FilterMatchMode } from "primevue/api";
 import Column from "primevue/column"; ////Datatable
 import InputText from "primevue/inputtext";
-import ConfirmDialog from "primevue/confirmdialog";
 import { useConfirm } from "primevue/useconfirm";
 import Loading from "../../components/Loading.vue";
+import { formatDate } from "../../utilities/util";
 import { useResult } from "../../stores/Result";
 import { storeToRefs } from "pinia";
 
@@ -100,18 +106,44 @@ const columns = ref([
     className: "text-center",
     filter: true,
   },
-
   {
     id: 1,
-    label: "Tên",
-    data: "name",
+    label: "Ngày lấy mẫu",
+    data: "date",
     className: "text-center",
-    filter: true,
+    // filter: true,
+  },
+  {
+    id: 2,
+    label: "Điểm lấy mẫu",
+    data: "point",
+    className: "text-center",
+    // filter: true,
+  },
+  {
+    id: 3,
+    label: "Đối tượng",
+    data: "obj",
+    className: "text-center",
+    // filter: true,
+  },
+  {
+    id: 4,
+    label: "Chỉ tiêu/Phương pháp",
+    data: "target",
+    className: "text-center",
+    // filter: true,
+  },
+  {
+    id: 5,
+    label: "Giá trị",
+    data: "value",
+    className: "text-center",
+    // filter: true,
   },
 ]);
 const filters = ref({
   id: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  name: { value: null, matchMode: FilterMatchMode.CONTAINS },
 });
 const totalRecords = ref(0);
 const loading = ref(true);

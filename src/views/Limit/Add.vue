@@ -65,7 +65,6 @@ const submit = () => {
 const vaild = () => {
   if (!model.value.object_id) return false;
   if (!model.value.target_id) return false;
-  if (!model.value.location_id) return false;
   if (!model.value.date_effect) return false;
   return true;
 }

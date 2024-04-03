@@ -37,7 +37,7 @@
             <div class="form-group">
                 <b>Đối tượng:<i class="text-danger">*</i></b>
                 <div class="pt-1">
-                    <select class="form-control form-control-sm" v-model="model.object_id">
+                    <select class="form-control form-control-sm" v-model="model.object_id" @change="changeObject">
                         <option v-for="(item, index) in objects" :value="item.id" :key="item.id">{{ item.name }}
                         </option>
                     </select>
@@ -45,9 +45,9 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-4" v-if="!is_multi_target">
             <div class="form-group">
-                <b>Chỉ tiêu:<i class="text-danger">*</i></b>
+                <b>Phương pháp lấy mẫu:<i class="text-danger">*</i></b>
                 <div class="pt-1">
                     <select class="form-control form-control-sm" v-model="model.target_id">
                         <option v-for="(item, index) in targets" :value="item.id" :key="item.id">{{ item.name }}
@@ -70,13 +70,27 @@ const store_Point = usePoint();
 const store_general = useGeneral();
 const { model } = storeToRefs(store_Point);
 const { objects, targets } = storeToRefs(store_general);
+const object = computed(() => {
+    Api.targetsOfObject(model.value.object_id).then((res) => {
+        targets.value = res;
+    })
+    return objects.value.find((item) => {
+        return item.id == model.value.object_id;
+    })
+});
+const is_multi_target = computed(() => {
+    return object.value ? object.value.is_multi_target : true;
+})
+const changeObject = () => {
 
+}
 onMounted(() => {
     Api.objects().then((res) => {
         objects.value = res;
-    })
-    Api.targets().then((res) => {
-        targets.value = res;
-    })
+    });
+    // changeObject();
+    // Api.targets().then((res) => {
+    //     targets.value = res;
+    // })
 })
 </script>
