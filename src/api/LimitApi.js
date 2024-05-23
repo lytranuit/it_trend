@@ -44,4 +44,13 @@ export default {
       })
       .then((res) => res.data);
   },
+  xuatexcel(params) {
+    let headers = authHeader();
+    headers["Content-Type"] = "multipart/form-data";
+    return repository
+      .post(`/${area}/${resoure}/xuatexcel`, params, {
+        headers: headers,
+      })
+      .then((res) => res.data);
+  },
 };

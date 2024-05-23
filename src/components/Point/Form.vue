@@ -35,6 +35,20 @@
 
         <div class="col-md-4">
             <div class="form-group">
+                <b>Tuần suất:<i class="text-danger">*</i></b>
+                <div class="pt-1">
+                    <select class="form-control form-control-sm" v-model="model.frequency_id">
+                        <option value="1">Hàng ngày</option>
+                        <option value="2">2 tuần/lần</option>
+                        <option value="3">Hàng tháng</option>
+                        <option value="4">3 tháng/lần</option>
+                        <option value="5">6 tháng/lần</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
                 <b>Đối tượng:<i class="text-danger">*</i></b>
                 <div class="pt-1">
                     <select class="form-control form-control-sm" v-model="model.object_id" @change="changeObject">
@@ -53,6 +67,15 @@
                         <option v-for="(item, index) in targets" :value="item.id" :key="item.id">{{ item.name }}
                         </option>
                     </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <b>Color:</b>
+                <div class="pt-1">
+                    <input type="color" class="form-control" v-model="model.color" />
                 </div>
             </div>
         </div>

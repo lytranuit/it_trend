@@ -2,58 +2,152 @@
   <div class="row clearfix">
     <div class="col-12">
       <h5 class="card-header drag-handle">
-        <Button label="Tạo mới" icon="pi pi-plus" class="p-button-success p-button-sm mr-2" @click="openNew"></Button>
+        <Button
+          label="Tạo mới"
+          icon="pi pi-plus"
+          class="p-button-success p-button-sm mr-2"
+          @click="openNew"
+        ></Button>
         <PopupAdd @save="loadLazyData"></PopupAdd>
       </h5>
       <section class="card card-fluid">
         <div class="card-body" style="overflow: auto; position: relative">
-          <DataTable class="p-datatable-customers" showGridlines :value="datatable" :lazy="true" ref="dt"
-            scrollHeight="70vh" v-model:selection="selectedProducts" :paginator="true"
-            :rowsPerPageOptions="[10, 50, 100]" :rows="rows" :totalRecords="totalRecords" @page="onPage($event)"
-            :rowHover="true" :loading="loading" responsiveLayout="scroll" :resizableColumns="true"
-            columnResizeMode="expand" v-model:filters="filters" filterDisplay="menu">
+          <DataTable
+            class="p-datatable-customers"
+            showGridlines
+            :value="datatable"
+            :lazy="true"
+            ref="dt"
+            v-model:selection="selectedProducts"
+            :paginator="true"
+            :rowsPerPageOptions="[10, 50, 100]"
+            :rows="rows"
+            :totalRecords="totalRecords"
+            @page="onPage($event)"
+            :rowHover="true"
+            :loading="loading"
+            responsiveLayout="scroll"
+            :resizableColumns="true"
+            columnResizeMode="expand"
+            v-model:filters="filters"
+            filterDisplay="menu"
+          >
             <template #header>
-              <div style="width: 200px">
-                <TreeSelect :options="columns" v-model="showing" multiple :limit="0"
-                  :limitText="(count) => 'Hiển thị: ' + count + ' cột'">
-                </TreeSelect>
+              <div class="d-md-flex">
+                <div style="width: 200px">
+                  <TreeSelect
+                    :options="columns"
+                    v-model="showing"
+                    multiple
+                    :limit="0"
+                    :limitText="(count) => 'Hiển thị: ' + count + ' cột'"
+                  >
+                  </TreeSelect>
+                </div>
+                <div class="ml-auto"></div>
               </div>
             </template>
 
             <template #empty> Không có dữ liệu. </template>
-            <Column v-for="col of selectedColumns" :field="col.data" :header="col.label" :key="col.data"
-              :showFilterMatchModes="false">
+            <Column
+              v-for="col of selectedColumns"
+              :field="col.data"
+              :header="col.label"
+              :key="col.data"
+              :showFilterMatchModes="false"
+            >
               <template #body="slotProps">
                 <template v-if="col.data == 'id'">
-                  <a class="" @click="edit(slotProps.data)" href="#"> <i class="fas fa-pencil-alt mr-2"></i>
-                    {{ slotProps.data[col.data] }}</a>
+                  <a class="" @click="edit(slotProps.data)" href="#">
+                    <i class="fas fa-pencil-alt mr-2"></i>
+                    {{ slotProps.data[col.data] }}</a
+                  >
                 </template>
-                <template v-else-if="col.data == 'point'">
-                  <p>{{ slotProps.data.point?.code }} {{ slotProps.data.point?.name }}</p>
-                  <p><i>{{ slotProps.data.point?.code }} {{ slotProps.data.point?.name_en }}</i></p>
+                <template v-else-if="col.data == 'point_id'">
+                  <p>
+                    {{ slotProps.data.point?.code }}
+                    {{ slotProps.data.point?.name }}
+                  </p>
+                  <p>
+                    <i
+                      >{{ slotProps.data.point?.code }}
+                      {{ slotProps.data.point?.name_en }}</i
+                    >
+                  </p>
                 </template>
-                <template v-else-if="col.data == 'obj'">
-                  <p>{{ slotProps.data.obj?.name }}</p>
-                  <p><i>{{ slotProps.data.obj?.name_en }}</i></p>
+                <template v-else-if="col.data == 'object_id'">
+                  <p>{{ slotProps.data.point?.obj?.name }}</p>
+                  <p>
+                    <i>{{ slotProps.data.point?.obj?.name_en }}</i>
+                  </p>
                 </template>
-                <template v-else-if="col.data == 'target'">
+                <template v-else-if="col.data == 'target_id'">
                   <p>{{ slotProps.data.target?.name }}</p>
-                  <p><i>{{ slotProps.data.target?.name_en }}</i></p>
+                  <p>
+                    <i>{{ slotProps.data.target?.name_en }}</i>
+                  </p>
                 </template>
                 <template v-else-if="col.data == 'date'">
                   {{ formatDate(slotProps.data[col.data]) }}
                 </template>
                 <div v-else v-html="slotProps.data[col.data]"></div>
               </template>
-              <template #filter="{ filterModel, filterCallback }" v-if="col.filter == true">
-                <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
-                  class="p-column-filter" />
+              <template
+                #filter="{ filterModel, filterCallback }"
+                v-if="col.filter == true"
+              >
+                <template v-if="col.data == 'object_id'">
+                  <select
+                    class="form-control form-control-sm"
+                    v-model="filterModel.value"
+                  >
+                    <option
+                      v-for="item in objects"
+                      :value="item.id"
+                      :key="item.id"
+                    >
+                      {{ item.name }}
+                    </option>
+                  </select>
+                </template>
+                <template v-else-if="col.data == 'target_id'">
+                  <select
+                    class="form-control form-control-sm"
+                    v-model="filterModel.value"
+                  >
+                    <option
+                      v-for="item in targets"
+                      :value="item.id"
+                      :key="item.id"
+                    >
+                      {{ item.name }}
+                    </option>
+                  </select>
+                </template>
+                <template v-else-if="col.data == 'date'">
+                  <InputText
+                    type="date"
+                    v-model="filterModel.value"
+                    @keydown.enter="filterCallback()"
+                    class="p-column-filter"
+                  />
+                </template>
+                <InputText
+                  type="text"
+                  v-model="filterModel.value"
+                  @keydown.enter="filterCallback()"
+                  class="p-column-filter"
+                  v-else
+                />
               </template>
             </Column>
             <Column style="width: 1rem">
               <template #body="slotProps">
-                <a class="p-link text-danger font-16" @click="confirmDelete(slotProps.data['id'])"><i
-                    class="pi pi-trash"></i></a>
+                <a
+                  class="p-link text-danger font-16"
+                  @click="confirmDelete(slotProps.data['id'])"
+                  ><i class="pi pi-trash"></i
+                ></a>
               </template>
             </Column>
           </DataTable>
@@ -78,10 +172,14 @@ import Loading from "../../components/Loading.vue";
 import { formatDate } from "../../utilities/util";
 import { useResult } from "../../stores/Result";
 import { storeToRefs } from "pinia";
+import Api from "../../api/Api";
 
 ///Form
+const objects = ref([]);
+const targets = ref([]);
 const store_Result = useResult();
 const { model, headerForm, visibleDialog } = storeToRefs(store_Result);
+
 const openNew = () => {
   model.value = {};
   headerForm.value = "Tạo mới";
@@ -89,12 +187,10 @@ const openNew = () => {
 };
 
 const edit = (m) => {
-  headerForm.value = m.mahh;
+  headerForm.value = m.id;
   model.value = { ...m };
   visibleDialog.value = true;
 };
-
-
 
 const confirm = useConfirm();
 const datatable = ref();
@@ -111,28 +207,28 @@ const columns = ref([
     label: "Ngày lấy mẫu",
     data: "date",
     className: "text-center",
-    // filter: true,
+    filter: true,
   },
   {
     id: 2,
     label: "Điểm lấy mẫu",
-    data: "point",
+    data: "point_id",
     className: "text-center",
-    // filter: true,
+    filter: true,
   },
   {
     id: 3,
     label: "Đối tượng",
-    data: "obj",
+    data: "object_id",
     className: "text-center",
-    // filter: true,
+    filter: true,
   },
   {
     id: 4,
     label: "Chỉ tiêu/Phương pháp",
-    data: "target",
+    data: "target_id",
     className: "text-center",
-    // filter: true,
+    filter: true,
   },
   {
     id: 5,
@@ -144,6 +240,10 @@ const columns = ref([
 ]);
 const filters = ref({
   id: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  point_id: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  object_id: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  target_id: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  date: { value: null, matchMode: FilterMatchMode.CONTAINS },
 });
 const totalRecords = ref(0);
 const loading = ref(true);
@@ -209,6 +309,13 @@ onMounted(() => {
     showing.value = JSON.parse(cache);
   }
   loadLazyData();
+
+  Api.objects().then((res) => {
+    objects.value = res;
+  });
+  Api.targets().then((res) => {
+    targets.value = res;
+  });
 });
 const waiting = ref();
 watch(filters, async (newa, old) => {

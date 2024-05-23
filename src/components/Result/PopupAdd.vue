@@ -4,8 +4,11 @@
         :breakpoints="{ '1199px': '75vw', '575px': '95vw' }">
         <Form></Form>
         <template #footer>
-            <Button label="Cancel" icon="pi pi-times" class="p-button-text" @click="hideDialog"></Button>
-            <Button label="Save" icon="pi pi-check" class="p-button-text" @click="save"></Button>
+            <div class="text-center">
+                <Button label="Thoát" icon="pi pi-times" size="small" @click="hideDialog"></Button>
+                <Button label="Lưu lại" icon="pi pi-check" severity="success" size="small" @click="save"></Button>
+            </div>
+
         </template>
     </Dialog>
 </template>
@@ -20,7 +23,9 @@ import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import { useResult } from '../../stores/Result';
 import Form from "./Form.vue";
+import { useConfirm } from "primevue/useconfirm";
 
+const confirm = useConfirm();
 const toast = useToast();
 const store_Result = useResult();
 const { visibleDialog, headerForm, model } = storeToRefs(store_Result);
@@ -33,14 +38,22 @@ const hideDialog = () => {
 const emit = defineEmits(["save"]);
 const save = () => {
     submitted.value = true;
-    if (!valid()) return;
+    console.log(model.value);
+    if (!valid()) {
+        alert("Chưa điền đầy đủ thông tin!");
+        return;
+    }
+    console.log(model.value);
     // waiting.value = true;
     delete model.value.obj;
     delete model.value.target;
     delete model.value.location;
+    if (typeof model.value.value == "boolean") {
+        model.value.value = model.value.value ? 1 : 0;
+    }
     ResultApi.Save(model.value).then((res) => {
         // waiting.value = false;
-        visibleDialog.value = false;
+        // visibleDialog.value = false;
         if (res.success) {
             toast.add({
                 severity: "success",
@@ -48,7 +61,22 @@ const save = () => {
                 detail: "Tạo mới thành công",
                 life: 3000,
             });
-
+            if (model.value.id > 0) {
+                visibleDialog.value = false;
+            }
+        } else if (res.is_duplicate) {
+            confirm.require({
+                message: "Dữ liệu này bị trùng. Bạn có muốn cập nhật dòng dữ liệu này?",
+                header: "Xác nhận",
+                icon: "pi pi-exclamation-triangle",
+                accept: () => {
+                    model.value.is_replace = true;
+                    ResultApi.Save(model.value).then((res) => {
+                        model.value.is_replace = null;
+                        emit("save", res);
+                    });
+                },
+            });
         } else {
             toast.add({
                 severity: "error",
@@ -65,11 +93,11 @@ const save = () => {
 ///Form
 const valid = () => {
     if (!model.value.point_id) return false;
-    if (!model.value.location_id) return false;
+    // if (!model.value.location_id) return false;
     if (!model.value.target_id) return false;
     if (!model.value.object_id) return false;
     if (!model.value.date) return false;
-    if (!model.value.value) return false;
+    if (model.value.value == null) return false;
     return true;
 };
 </script>

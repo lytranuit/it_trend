@@ -46,10 +46,10 @@ const props = defineProps({
 const formDialog = ref(false);
 const view = ref("Details");
 const ajaxSettings = ref({
-  url: "/v1/FileManager/FileOperations",
-  getImageUrl: "/v1/FileManager/GetImage",
-  uploadUrl: "/v1/FileManager/Upload",
-  downloadUrl: "/v1/FileManager/Download",
+  url: import.meta.env.VITE_BASEURL + "/v1/FileManager/FileOperations",
+  getImageUrl: import.meta.env.VITE_BASEURL + "/v1/FileManager/GetImage",
+  uploadUrl: import.meta.env.VITE_BASEURL + "/v1/FileManager/Upload",
+  downloadUrl: import.meta.env.VITE_BASEURL + "/v1/FileManager/Download",
 });
 const uploadSettings = ref({
   autoUpload: true,
@@ -74,14 +74,14 @@ const onFileOpen = (args) => {
 };
 </script>
 <style>
-  @import "~@syncfusion/ej2-base/styles/material.css";
-  @import "~@syncfusion/ej2-icons/styles/material.css";
-  @import "~@syncfusion/ej2-inputs/styles/material.css";
-  @import "~@syncfusion/ej2-popups/styles/material.css";
-  @import "~@syncfusion/ej2-buttons/styles/material.css";
-  @import "~@syncfusion/ej2-splitbuttons/styles/material.css";
-  @import "~@syncfusion/ej2-navigations/styles/material.css";
-  @import "~@syncfusion/ej2-layouts/styles/material.css";
-  @import "~@syncfusion/ej2-grids/styles/material.css";
-  @import "~@syncfusion/ej2-vue-filemanager/styles/material.css";
+@import "~@syncfusion/ej2-base/styles/material.css";
+@import "~@syncfusion/ej2-icons/styles/material.css";
+@import "~@syncfusion/ej2-inputs/styles/material.css";
+@import "~@syncfusion/ej2-popups/styles/material.css";
+@import "~@syncfusion/ej2-buttons/styles/material.css";
+@import "~@syncfusion/ej2-splitbuttons/styles/material.css";
+@import "~@syncfusion/ej2-navigations/styles/material.css";
+@import "~@syncfusion/ej2-layouts/styles/material.css";
+@import "~@syncfusion/ej2-grids/styles/material.css";
+@import "~@syncfusion/ej2-vue-filemanager/styles/material.css";
 </style>

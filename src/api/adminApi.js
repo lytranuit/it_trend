@@ -1,23 +1,32 @@
 import authHeader from "../service/authHeader";
 import repository from "../service/repository";
 
-const resoure = "history";
-const area = "v1";
+const resoure = "admin";
+const area = "trend";
 export default {
-  table(params) {
+  chart(params) {
     let headers = authHeader();
     headers["Content-Type"] = "multipart/form-data";
     return repository
-      .post(`/${area}/${resoure}/table`, params, {
+      .post(`/${area}/${resoure}/chart`, params, {
         headers: headers,
       })
       .then((res) => res.data);
   },
-  export(params) {
+  actions(params) {
     let headers = authHeader();
     headers["Content-Type"] = "multipart/form-data";
     return repository
-      .post(`/${area}/${resoure}/exportexcel`, params, {
+      .post(`/${area}/${resoure}/actions`, params, {
+        headers: headers,
+      })
+      .then((res) => res.data);
+  },
+  alerts(params) {
+    let headers = authHeader();
+    headers["Content-Type"] = "multipart/form-data";
+    return repository
+      .post(`/${area}/${resoure}/alerts`, params, {
         headers: headers,
       })
       .then((res) => res.data);

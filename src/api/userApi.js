@@ -24,6 +24,13 @@ export default {
       .get(`/${area}/${resoure}/roles`, { headers: authHeader() })
       .then((res) => res.data);
   },
+  updateObject(formData) {
+    let headers = authHeader();
+    headers["Content-Type"] = "multipart/form-data";
+    return repository
+      .post(`/${area}/${resoure}/updateObject`, formData, { headers: headers })
+      .then((res) => res.data);
+  },
   create(formData) {
     return repository
       .post(`/${area}/${resoure}/create`, formData, { headers: authHeader() })

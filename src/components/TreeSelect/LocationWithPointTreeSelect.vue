@@ -1,8 +1,10 @@
 <template>
   <TreeSelect :options="locationsWithPoint" :multiple="multiple" :modelValue="modelValue" :normalizer="normalizer"
     :flat="flat" :name="name" :required="required" :value-consists-of="valueConsistsOf" :append-to-body="true"
-    @update:modelValue="emit('update:modelValue', $event)" :disable-branch-nodes="true"
-    :default-expand-level="Infinity"></TreeSelect>
+    @update:modelValue="emit('update:modelValue', $event)" :disable-branch-nodes="disableBranchNodes"
+    :disabled="disabled" :default-expand-level="defaultExpandLevel" :limit="5"
+    :limitText="(count) => 'và ' + count + ' điểm nữa'">
+  </TreeSelect>
 </template>
 
 <script setup>
@@ -32,6 +34,18 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+  disableBranchNodes: {
+    type: Boolean,
+    default: true,
+  },
+  defaultExpandLevel: {
+    type: [String, Number],
+    default: 0,
+  }
 });
 const emit = defineEmits(["update:modelValue"]);
 const store = useGeneral();

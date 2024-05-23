@@ -7,10 +7,20 @@
         <section class="card card-fluid">
           <div class="d-inline-block w-100">
             <div class="card-header">
-              <a href="#" class="btn btn-sm btn-success" data-toggle="modal" data-animation="bounce"
-                data-target=".modal-pass">Đổi mật khẩu</a>
+              <a
+                href="#"
+                class="btn btn-sm btn-success"
+                data-toggle="modal"
+                data-animation="bounce"
+                data-target=".modal-pass"
+                >Đổi mật khẩu</a
+              >
 
-              <button type="submit" class="btn btn-sm btn-primary float-right" @click.prevent="submit()">
+              <button
+                type="submit"
+                class="btn btn-sm btn-primary float-right"
+                @click.prevent="submit()"
+              >
                 Save
               </button>
             </div>
@@ -20,31 +30,75 @@
               <div class="col-md-8">
                 <input type="hidden" name="id" v-model="data.id" required />
                 <div class="form-group row">
-                  <b class="col-12 col-lg-2 col-form-label">Email:<i class="text-danger">*</i></b>
+                  <b class="col-12 col-lg-2 col-form-label"
+                    >Email:<i class="text-danger">*</i></b
+                  >
                   <div class="col-12 col-lg-4 pt-1">
-                    <input class="form-control form-control-sm" type="text" name="email" placeholder="Email"
-                      v-model="data.email" required />
+                    <input
+                      class="form-control form-control-sm"
+                      type="text"
+                      name="email"
+                      placeholder="Email"
+                      v-model="data.email"
+                      required
+                    />
                   </div>
                 </div>
                 <div class="form-group row">
-                  <b class="col-12 col-lg-2 col-form-label">Họ và tên:<i class="text-danger">*</i></b>
+                  <b class="col-12 col-lg-2 col-form-label"
+                    >Họ và tên:<i class="text-danger">*</i></b
+                  >
                   <div class="col-12 col-lg-4 pt-1">
-                    <input class="form-control form-control-sm" type="text" name="fullName" required=""
-                      placeholder="FullName" v-model="data.fullName" />
+                    <input
+                      class="form-control form-control-sm"
+                      type="text"
+                      name="fullName"
+                      required=""
+                      placeholder="FullName"
+                      v-model="data.fullName"
+                    />
                   </div>
                   <b class="col-12 col-lg-2 col-form-label">Nhóm:</b>
                   <div class="col-lg-4 pt-1">
-                    <RoleTreeSelect v-model="data.roles" multiple></RoleTreeSelect>
-                    <select name="roles[]" v-model="data.roles" multiple class="d-none">
-                      <option v-for="option in data.roles" :key="option" :value="option"></option>
+                    <RoleTreeSelect
+                      v-model="data.roles"
+                      multiple
+                    ></RoleTreeSelect>
+                    <select
+                      name="roles[]"
+                      v-model="data.roles"
+                      multiple
+                      class="d-none"
+                    >
+                      <option
+                        v-for="option in data.roles"
+                        :key="option"
+                        :value="option"
+                      ></option>
                     </select>
                   </div>
                 </div>
                 <div class="form-group row">
                   <b class="col-12 col-lg-2 col-form-label">Quản lý:</b>
                   <div class="col-lg-10 pt-1">
-                    <UserDepartmentTreeSelect v-model="data.list_users" multiple name="list_users[]">
-                    </UserDepartmentTreeSelect>
+                    <div class="d-inline-block">
+                      <ObjectTreeSelect
+                        v-model="data.objects"
+                        multiple
+                      ></ObjectTreeSelect>
+                      <select
+                        name="objects[]"
+                        v-model="data.objects"
+                        multiple
+                        class="d-none"
+                      >
+                        <option
+                          v-for="option in data.objects"
+                          :key="option"
+                          :value="option"
+                        ></option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -54,9 +108,20 @@
                     <div class="card no-shadow border">
                       <div class="card-header">Hình đại diện</div>
                       <div class="card-body text-center">
-                        <input type="hidden" name="image_url" v-model="data.image_url" />
-                        <ImageManager @choose="choose"
-                          :image="VITE_BASEURL + data.image_url + '?token=' + user.key_private">
+                        <input
+                          type="hidden"
+                          name="image_url"
+                          v-model="data.image_url"
+                        />
+                        <ImageManager
+                          @choose="choose"
+                          :image="
+                            VITE_BASEURL +
+                            data.image_url +
+                            '?token=' +
+                            user.key_private
+                          "
+                        >
                         </ImageManager>
                       </div>
                     </div>
@@ -65,9 +130,20 @@
                     <div class="card no-shadow border">
                       <div class="card-header">Chữ ký</div>
                       <div class="card-body text-center">
-                        <input type="hidden" name="image_sign" v-model="data.image_sign" />
-                        <ImageManager @choose="chooseSign"
-                          :image="VITE_BASEURL + data.image_sign + '?token=' + user.key_private">
+                        <input
+                          type="hidden"
+                          name="image_sign"
+                          v-model="data.image_sign"
+                        />
+                        <ImageManager
+                          @choose="chooseSign"
+                          :image="
+                            VITE_BASEURL +
+                            data.image_sign +
+                            '?token=' +
+                            user.key_private
+                          "
+                        >
                         </ImageManager>
                       </div>
                     </div>
@@ -88,7 +164,12 @@
               <h5 class="modal-title mt-0" id="myLargeModalLabel">
                 Đổi mật khẩu
               </h5>
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-hidden="true"
+              >
                 ×
               </button>
             </div>
@@ -97,13 +178,28 @@
               <div class="row justify-content-md-center">
                 <div class="col-md-4">
                   <div class="form-floating mt-2">
-                    <input type="password" id="password" class="form-control" name="NewPassword" minlength="6"
-                      required="" placeholder="Mật khẩu mới" autocomplete="off" />
+                    <input
+                      type="password"
+                      id="password"
+                      class="form-control"
+                      name="NewPassword"
+                      minlength="6"
+                      required=""
+                      placeholder="Mật khẩu mới"
+                      autocomplete="off"
+                    />
                   </div>
                   <div class="form-floating mt-2">
-                    <input type="password" class="form-control" name="ConfirmPassword" minlength="6"
-                      data-rule-equalTo="#password" required="" placeholder="Nhập lại mật khẩu mới"
-                      autocomplete="off" />
+                    <input
+                      type="password"
+                      class="form-control"
+                      name="ConfirmPassword"
+                      minlength="6"
+                      data-rule-equalTo="#password"
+                      required=""
+                      placeholder="Nhập lại mật khẩu mới"
+                      autocomplete="off"
+                    />
                   </div>
                 </div>
               </div>
@@ -111,8 +207,12 @@
             <div class="model-fotter">
               <div class="row justify-content-md-center m-2">
                 <div class="col-12 text-center">
-                  <button type="submit" class="btn btn-sm btn-primary" style="width: 200px"
-                    @click.prevent="change_pass()">
+                  <button
+                    type="submit"
+                    class="btn btn-sm btn-primary"
+                    style="width: 200px"
+                    @click.prevent="change_pass()"
+                  >
                     Cập nhật mật khẩu
                   </button>
                 </div>
@@ -138,6 +238,8 @@ import userApi from "../../../api/userApi";
 import ImageManager from "../../../components/ImageManager.vue";
 import RoleTreeSelect from "../../../components/TreeSelect/RoleTreeSelect.vue";
 import UserDepartmentTreeSelect from "../../../components/TreeSelect/UserDepartmentTreeSelect.vue";
+import InputSwitch from "primevue/inputswitch";
+import ObjectTreeSelect from "../../../components/TreeSelect/ObjectTreeSelect.vue";
 const route = useRoute();
 const messageError = ref();
 const messageSuccess = ref();
@@ -157,11 +259,18 @@ const choose = (path) => {
 const chooseSign = (path) => {
   data.value.image_sign = "/private/upload" + path;
 };
+const update_object = () => {
+  return userApi.updateObject({
+    user_id: data.value.id,
+    objects: data.value.objects,
+  });
+};
 const submit = () => {
   var vaild = $("#form").valid();
   if (!vaild) {
     return;
   }
+  update_object();
   let formData = $("#form").serialize();
   userApi.edit(formData).then((response) => {
     messageError.value = "";

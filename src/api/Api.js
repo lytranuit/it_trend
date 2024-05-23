@@ -37,9 +37,12 @@ export default {
       })
       .then((res) => res.data);
   },
-  locationsWithPoint() {
+  locationsWithPoint(filter_object = null, filter_target = null, filter_type_bc = null) {
     return repository
-      .get(`/${area}/${resoure}/locationsWithPoint`, { headers: authHeader() })
+      .get(`/${area}/${resoure}/locationsWithPoint`, {
+        params: { filter_object: filter_object, filter_target: filter_target, filter_type_bc: filter_type_bc },
+        headers: authHeader(),
+      })
       .then((res) => res.data);
   },
 };

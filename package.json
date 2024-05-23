@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build && cp dist/* -r 'X:/trend.astahealthcare.com'",
+    "build": "vite build && Robocopy dist X:/trend.astahealthcare.com /E /dcopy:DAT /MT:32 /R:5 /W:5 /V",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -22,6 +22,7 @@
     "@syncfusion/ej2-vue-schedule": "^23.1.44",
     "axios": "^1.6.2",
     "chart.js": "^4.4.0",
+    "chartjs-plugin-annotation": "^3.0.1",
     "chartjs-plugin-datalabels": "^2.2.0",
     "datatables.net-bs4": "^1.13.7",
     "datatables.net-vue3": "^2.1.3",

@@ -8,8 +8,7 @@
       </h5>
       <section class="card card-fluid">
         <div class="card-body" style="overflow: auto; position: relative">
-          <DataTable class="p-datatable-customers" showGridlines :value="datatable" :lazy="true" ref="dt"
-            scrollHeight="70vh" v-model:selection="selectedProducts" :paginator="true"
+          <DataTable class="p-datatable-customers" showGridlines :value="datatable" :lazy="true" ref="dt" v-model:selection="selectedProducts" :paginator="true"
             :rowsPerPageOptions="[10, 50, 100]" :rows="rows" :totalRecords="totalRecords" @page="onPage($event)"
             :rowHover="true" :loading="loading" responsiveLayout="scroll" :resizableColumns="true"
             columnResizeMode="expand" v-model:filters="filters" filterDisplay="menu">
@@ -46,6 +45,23 @@
                 <template v-else-if="col.data == 'target'">
                   <p>{{ slotProps.data.target?.name }}</p>
                   <p><i>{{ slotProps.data.target?.name_en }}</i></p>
+                </template>
+                <template v-else-if="col.data == 'frequency'">
+                  <div v-if="slotProps.data.frequency_id == 1">
+                    Hàng ngày
+                  </div>
+                  <div v-else-if="slotProps.data.frequency_id == 2">
+                    2 tuần / lần
+                  </div>
+                  <div v-else-if="slotProps.data.frequency_id == 3">
+                    Hàng tháng
+                  </div>
+                  <div v-else-if="slotProps.data.frequency_id == 4">
+                    3 tháng/lần
+                  </div>
+                  <div v-else-if="slotProps.data.frequency_id == 5">
+                    6 tháng/lần
+                  </div>
                 </template>
                 <div v-else v-html="slotProps.data[col.data]"></div>
               </template>
@@ -123,7 +139,7 @@ const columns = ref([
     data: "name",
     className: "text-center",
     filter: true,
-  }, 
+  },
   {
     id: 3,
     label: "Đối tượng",
@@ -138,6 +154,12 @@ const columns = ref([
   },
   {
     id: 5,
+    label: "Tần suất",
+    data: "frequency",
+    className: "text-center",
+  },
+  {
+    id: 6,
     label: "Vị trí",
     data: "location",
     className: "text-center",
@@ -145,6 +167,7 @@ const columns = ref([
 ]);
 const filters = ref({
   id: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  code: { value: null, matchMode: FilterMatchMode.CONTAINS },
   name: { value: null, matchMode: FilterMatchMode.CONTAINS },
 });
 const totalRecords = ref(0);

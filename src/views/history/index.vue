@@ -11,7 +11,6 @@
             :lazy="true"
             ref="dt"
             :paginator="true"
-            scrollHeight="70vh"
             class="p-datatable-customers"
             :rowsPerPageOptions="[10, 50, 100]"
             :rows="rows"

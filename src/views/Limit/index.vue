@@ -9,10 +9,10 @@
       <section class="card card-fluid">
         <div class="card-body" style="overflow: auto; position: relative">
           <DataTable class="p-datatable-customers" showGridlines :value="datatable" :lazy="true" ref="dt"
-            scrollHeight="70vh" v-model:selection="selectedProducts" :paginator="true"
-            :rowsPerPageOptions="[10, 50, 100]" :rows="rows" :totalRecords="totalRecords" @page="onPage($event)"
-            :rowHover="true" :loading="loading" responsiveLayout="scroll" :resizableColumns="true"
-            columnResizeMode="expand" v-model:filters="filters" filterDisplay="menu">
+            v-model:selection="selectedProducts" :paginator="true" :rowsPerPageOptions="[10, 50, 100]" :rows="rows"
+            :totalRecords="totalRecords" @page="onPage($event)" :rowHover="true" :loading="loading"
+            responsiveLayout="scroll" :resizableColumns="true" columnResizeMode="expand" v-model:filters="filters"
+            filterDisplay="menu">
             <template #header>
               <div style="width: 200px">
                 <TreeSelect :options="columns" v-model="showing" multiple :limit="0"
@@ -34,27 +34,38 @@
                 <template v-else-if="col.data == 'date_effect'">
                   {{ formatDate(slotProps.data[col.data]) }}
                 </template>
-                <template v-else-if="col.data == 'location'">
-                  <p>{{ slotProps.data.location?.name }}</p>
-                  <p><i>{{ slotProps.data.location?.name_en }}</i></p>
-                </template>
-                <template v-else-if="col.data == 'obj'">
+                <template v-else-if="col.data == 'object_id'">
                   <p>{{ slotProps.data.obj?.name }}</p>
                   <p><i>{{ slotProps.data.obj?.name_en }}</i></p>
                 </template>
-                <template v-else-if="col.data == 'target'">
+                <template v-else-if="col.data == 'target_id'">
                   <p>{{ slotProps.data.target?.name }}</p>
                   <p><i>{{ slotProps.data.target?.name_en }}</i></p>
                 </template>
-                <div v-else v-html="slotProps.data[col.data]"></div>
+                <div v-else v-html="slotProps.data[col.data]" style="white-space: break-spaces;
+    word-wrap: break-word;"></div>
               </template>
               <template #filter="{ filterModel, filterCallback }" v-if="col.filter == true">
+                <template v-if="col.data == 'object_id'">
+                  <select class="form-control form-control-sm" v-model="filterModel.value">
+                    <option v-for="(item, index) in objects" :value="item.id" :key="item.id">{{ item.name }}
+                    </option>
+                  </select>
+                </template>
+                <template v-else-if="col.data == 'target_id'">
+                  <select class="form-control form-control-sm" v-model="filterModel.value">
+                    <option v-for="(item, index) in targets" :value="item.id" :key="item.id">{{ item.name }}
+                    </option>
+                  </select>
+                </template>
                 <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
-                  class="p-column-filter" />
+                  class="p-column-filter" v-else />
               </template>
             </Column>
             <Column style="width: 1rem">
               <template #body="slotProps">
+                <a class="p-link text-info font-16 mr-2" @click="copy(slotProps.data['id'])"><i
+                    class="pi pi-copy"></i></a>
                 <a class="p-link text-danger font-16" @click="confirmDelete(slotProps.data['id'])"><i
                     class="pi pi-trash"></i></a>
               </template>
@@ -80,65 +91,74 @@ import Loading from "../../components/Loading.vue";
 import { useLimit } from "../../stores/Limit";
 import { storeToRefs } from "pinia";
 import { formatDate } from "../../utilities/util";
+import { useRouter } from "vue-router";
+import Api from "../../api/Api";
 ///Form
 const store_Limit = useLimit();
 const { model, headerForm, visibleDialog } = storeToRefs(store_Limit);
-
+const router = useRouter();
 const confirm = useConfirm();
 const datatable = ref();
+const objects = ref([]);
+const targets = ref([]);
 const columns = ref([
   {
     id: 0,
     label: "ID",
     data: "id",
     className: "text-center",
+    filter: true,
+  }, {
+    id: 1,
+    label: "Tên",
+    data: "name",
+    className: "text-center",
+    filter: true,
   },
   {
-    id: 1,
+    id: 2,
     label: "Ngày hiệu lực",
     data: "date_effect",
     className: "text-center",
   },
   {
-    id: 2,
-    label: "Đối tượng",
-    data: "obj",
-    className: "text-center",
-  },
-  {
     id: 3,
-    label: "Chỉ tiêu",
-    data: "target",
+    label: "Đối tượng",
+    data: "object_id",
     className: "text-center",
+    filter: true,
   },
   {
     id: 4,
-    label: "Vị trí",
-    data: "location",
+    label: "Chỉ tiêu",
+    data: "target_id",
     className: "text-center",
+    filter: true,
   },
   {
     id: 5,
-    label: "Tiêu chuẩn chấp nhận",
-    data: "standard_limit",
-    className: "text-center",
-  },
-  {
-    id: 6,
     label: "Giới hạn cảnh báo",
     data: "alert_limit",
     className: "text-center",
   },
   {
-    id: 7,
+    id: 6,
     label: "Giới hạn hành động",
     data: "action_limit",
+    className: "text-center",
+  },
+  {
+    id: 7,
+    label: "Tiêu chuẩn chấp nhận",
+    data: "standard_limit",
     className: "text-center",
   },
 ]);
 const filters = ref({
   id: { value: null, matchMode: FilterMatchMode.CONTAINS },
   name: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  object_id: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  target_id: { value: null, matchMode: FilterMatchMode.CONTAINS },
 });
 const totalRecords = ref(0);
 const loading = ref(true);
@@ -194,6 +214,9 @@ const confirmDelete = (id) => {
     },
   });
 };
+const copy = (id) => {
+  window.open("/limit/edit/" + id + "?copy=true", "_blank");
+}
 onMounted(() => {
   let cache = localStorage.getItem(column_cache);
   if (!cache) {
@@ -204,6 +227,12 @@ onMounted(() => {
     showing.value = JSON.parse(cache);
   }
   loadLazyData();
+  Api.objects().then((res) => {
+    objects.value = res;
+  });
+  Api.targets().then((res) => {
+    targets.value = res;
+  });
 });
 const waiting = ref();
 watch(filters, async (newa, old) => {

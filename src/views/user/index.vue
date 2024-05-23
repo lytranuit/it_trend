@@ -10,8 +10,7 @@
       </h5>
       <section class="card card-fluid">
         <div class="card-body" style="overflow: auto; position: relative">
-          <DataTable class="p-datatable-customers" showGridlines :value="datatable" :lazy="true" ref="dt"
-            scrollHeight="70vh" v-model:selection="selectedProducts" :paginator="true"
+          <DataTable class="p-datatable-customers" showGridlines :value="datatable" :lazy="true" ref="dt" v-model:selection="selectedProducts" :paginator="true"
             :rowsPerPageOptions="[10, 50, 100]" :rows="rows" :totalRecords="totalRecords" @page="onPage($event)"
             :rowHover="true" :loading="loading" responsiveLayout="scroll" :resizableColumns="true"
             columnResizeMode="expand" v-model:filters="filters" filterDisplay="menu">

@@ -37,7 +37,7 @@ onMounted(() => {
   model.value = {};
 });
 const submit = () => {
-  console.log(model.value);
+  // console.log(model.value);
   if (!vaild()) {
     alert("Điền đây đủ thông tin (*)!")
     return;
@@ -63,9 +63,11 @@ const submit = () => {
   });
 };
 const vaild = () => {
+  if (!model.value.name) return false;
   if (!model.value.object_id) return false;
   if (!model.value.target_id) return false;
   if (!model.value.date_effect) return false;
+  if (!model.value.list_point || !model.value.list_point.length) return false;
   return true;
 }
 </script>
