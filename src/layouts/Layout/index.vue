@@ -4,16 +4,18 @@ import LeftSide from "./LeftSide.vue";
 import Topbar from "./Topbar.vue";
 import DynamicDialog from "primevue/dynamicdialog";
 import { useLayout } from "@/layouts/composables/layout";
-import ConfirmDialog from 'primevue/confirmdialog';
-import Toast from 'primevue/toast';
+import ConfirmDialog from "primevue/confirmdialog";
+import Toast from "primevue/toast";
 
 import { useAuth } from "../../stores/auth";
 import { useRoute } from "vue-router";
+import { storeToRefs } from "pinia";
 const store = useAuth();
+const { isAuth } = storeToRefs(store);
 // const response = await store.getUser();
-// if (!response) {
-//   store.logout();
-// }
+if (!isAuth.value) {
+  store.logout();
+}
 const { layoutConfig, layoutState, isSidebarActive } = useLayout();
 
 const outsideClickListener = ref(null);

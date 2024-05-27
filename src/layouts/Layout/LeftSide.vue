@@ -42,7 +42,7 @@
         </ul>
       </li>
 
-      <li v-if="is_admin">
+      <li>
         <a href="javascript: void(0);">
           <i class="fas fa-filter"></i>
           <span>Trường dữ liệu</span>
@@ -50,22 +50,22 @@
         </a>
 
         <ul class="nav-second-level" aria-expanded="false">
-          <li class="nav-item">
+          <li class="nav-item" v-if="is_admin">
             <router-link class="nav-link" to="/object"
               ><i class="ti-control-record"></i>Đối tượng</router-link
             >
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="is_admin">
             <router-link class="nav-link" to="/target"
               ><i class="ti-control-record"></i>Chỉ tiêu/PP lấy mẫu</router-link
             >
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="is_admin">
             <router-link class="nav-link" to="/location"
               ><i class="ti-control-record"></i>Vị trí</router-link
             >
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="is_admin">
             <router-link class="nav-link" to="/point"
               ><i class="ti-control-record"></i>Điểm lấy mẫu</router-link
             >

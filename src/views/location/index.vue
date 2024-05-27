@@ -3,45 +3,89 @@
     <Toast />
     <div class="col-12">
       <h5 class="card-header drag-handle">
-        <Button label="Tạo mới" icon="pi pi-plus" class="p-button-success p-button-sm mr-2" @click="openNew"></Button>
-        <Button label="Lưu lại" icon="pi pi-save" class="p-button-primary p-button-sm float-right"
-          @click="saveorder"></Button>
+        <Button
+          label="Tạo mới"
+          icon="pi pi-plus"
+          class="p-button-success p-button-sm mr-2"
+          @click="openNew"
+        ></Button>
+        <Button
+          label="Lưu lại"
+          icon="pi pi-save"
+          class="p-button-primary p-button-sm float-right"
+          @click="saveorder"
+        ></Button>
       </h5>
       <section class="card card-fluid">
         <div class="card-body" style="overflow: auto; position: relative">
           <div class="dd" id="nestable_list_1">
             <ol class="dd-list ui-sortable" id="nestable">
-              <TreeLocation v-for="node in datatable" :key="node.id" :node="node" @edit="edit"
-                @remove="confirmDelete" />
+              <TreeLocation
+                v-for="node in datatable"
+                :key="node.id"
+                :node="node"
+                @edit="edit"
+                @remove="confirmDelete"
+              />
             </ol>
           </div>
         </div>
       </section>
     </div>
 
-    <Dialog v-model:visible="productDialog" :header="headerForm" :modal="true" class="p-fluid"
-      :style="{ width: '50vw' }" :breakpoints="{ '1199px': '75vw', '575px': '95vw' }">
+    <Dialog
+      v-model:visible="productDialog"
+      :header="headerForm"
+      :modal="true"
+      class="p-fluid"
+      :style="{ width: '50vw' }"
+      :breakpoints="{ '1199px': '75vw', '575px': '95vw' }"
+    >
       <div class="row mb-2">
         <div class="field col">
           <label for="name">Mã</label>
-          <InputText id="name" class="p-inputtext-sm" v-model.trim="model.code" />
+          <InputText
+            id="name"
+            class="p-inputtext-sm"
+            v-model.trim="model.code"
+          />
         </div>
         <div class="field col">
           <label for="name">Tên <span class="text-danger">*</span></label>
-          <InputText id="name" class="p-inputtext-sm" v-model.trim="model.name" required="true"
-            :class="{ 'p-invalid': submitted && !model.name }" />
-          <small class="p-error" v-if="submitted && !model.name">Required.</small>
+          <InputText
+            id="name"
+            class="p-inputtext-sm"
+            v-model.trim="model.name"
+            required="true"
+            :class="{ 'p-invalid': submitted && !model.name }"
+          />
+          <small class="p-error" v-if="submitted && !model.name"
+            >Required.</small
+          >
         </div>
         <div class="field col">
           <label for="name">Tên tiếng anh</label>
           <div>
-            <input class="form-control form-control-sm" v-model="model.name_en" />
+            <input
+              class="form-control form-control-sm"
+              v-model="model.name_en"
+            />
           </div>
         </div>
       </div>
       <template #footer>
-        <Button label="Cancel" icon="pi pi-times" class="p-button-text" @click="hideDialog"></Button>
-        <Button label="Save" icon="pi pi-check" class="p-button-text" @click="saveProduct"></Button>
+        <Button
+          label="Cancel"
+          icon="pi pi-times"
+          class="p-button-text"
+          @click="hideDialog"
+        ></Button>
+        <Button
+          label="Save"
+          icon="pi pi-check"
+          class="p-button-text"
+          @click="saveProduct"
+        ></Button>
       </template>
     </Dialog>
     <Loading :waiting="waiting"></Loading>
@@ -185,6 +229,7 @@ const saveorder = () => {
     excludeRoot: true,
   });
   waiting.value = true;
+  // console.log(arraied);
   LocationApi.saveorder(arraied).then((res) => {
     waiting.value = false;
     if (res.success) {

@@ -151,8 +151,8 @@
           ) {
             if (
               this.overflowOffset.top +
-                this.scrollParent[0].offsetHeight -
-                event.pageY <
+              this.scrollParent[0].offsetHeight -
+              event.pageY <
               o.scrollSensitivity
             ) {
               scrolled = this.scrollParent.scrollTop() + o.scrollSpeed;
@@ -167,8 +167,8 @@
 
             if (
               this.overflowOffset.left +
-                this.scrollParent[0].offsetWidth -
-                event.pageX <
+              this.scrollParent[0].offsetWidth -
+              event.pageX <
               o.scrollSensitivity
             ) {
               scrolled = this.scrollParent.scrollLeft() + o.scrollSpeed;
@@ -453,7 +453,7 @@
           !(o.protectRoot && parentItem[0].parentNode == this.element[0]) &&
           ((o.rtl &&
             this.positionAbs.left + this.helper.outerWidth() >
-              parentItem.offset().left + parentItem.outerWidth()) ||
+            parentItem.offset().left + parentItem.outerWidth()) ||
             (!o.rtl && this.positionAbs.left < parentItem.offset().left))
         ) {
           parentItem.after(this.placeholder[0]);
@@ -483,9 +483,9 @@
           ) &&
           ((o.rtl &&
             this.positionAbs.left + this.helper.outerWidth() <
-              previousItem.offset().left +
-                previousItem.outerWidth() -
-                o.tabSize) ||
+            previousItem.offset().left +
+            previousItem.outerWidth() -
+            o.tabSize) ||
             (!o.rtl &&
               this.positionAbs.left > previousItem.offset().left + o.tabSize))
         ) {
@@ -623,7 +623,7 @@
         if (
           !(
             this._pid_current ===
-              this._uiHash().item.parent().parent().attr("id") &&
+            this._uiHash().item.parent().parent().attr("id") &&
             this._sort_current === this._uiHash().item.index()
           )
         ) {
@@ -644,8 +644,8 @@
 
         $(items).each(function () {
           var res = ($(o.item || this).attr(o.attribute || "id") || "").match(
-              o.expression || /(.+)[-=_](.+)/
-            ),
+            o.expression || /(.+)[-=_](.+)/
+          ),
             pid = (
               $(o.item || this)
                 .parent(o.listType)
@@ -656,11 +656,11 @@
           if (res) {
             str.push(
               (o.key || res[1]) +
-                "[" +
-                (o.key && o.expression ? res[1] : res[2]) +
-                "]" +
-                "=" +
-                (pid ? (o.key && o.expression ? pid[1] : pid[2]) : o.rootID)
+              "[" +
+              (o.key && o.expression ? res[1] : res[2]) +
+              "]" +
+              "=" +
+              (pid ? (o.key && o.expression ? pid[1] : pid[2]) : o.rootID)
             );
           }
         });
@@ -687,8 +687,8 @@
 
         function _recursiveItems(item) {
           var id = ($(item).attr(o.attribute || "id") || "").match(
-              o.expression || /(.+)[-=_](.+)/
-            ),
+            o.expression || /(.+)[-=_](.+)/
+          ),
             currentItem;
 
           var data = $(item).data();
@@ -728,6 +728,7 @@
           ret.push({
             item_id: o.rootID,
             parent_id: null,
+            is_expand: true,
             depth: sDepth,
             left: left,
             right: ($(o.items, this.element).length + 1) * 2,
@@ -781,12 +782,15 @@
 
           if (id) {
             var data = $(item).children("div").data();
+            var is_expand = $("> .dd-list", item).is(":visible");
+            // console.log($(item));
             var count_child = $(item)
               .children(o.listType)
               .children(o.items).length;
             var itemObj = $.extend(data, {
               id: id[2],
               count_child: count_child,
+              is_expand: is_expand,
               parent_id: pid,
               depth: depth,
               left: _left,

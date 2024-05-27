@@ -14,7 +14,7 @@ export const useAuth = defineStore("auth", () => {
   const userdepartments = ref([]);
   const isAuth = computed(() => {
     const Token = getToken();
-    return Token && user.value.id ? true : false;
+    return Token && user.value.id && (is_admin.value || is_manager.value) ? true : false;
   });
   const user = computed(() => {
     const cacheUser = localStorage.getItem("me") || "{}";
@@ -28,7 +28,7 @@ export const useAuth = defineStore("auth", () => {
     return in_groups(["Administrator"]);
   });
   const is_manager = computed(() => {
-    return in_groups(["Manager Task"]);
+    return in_groups(["Manager Trend"]);
   });
   function getToken() {
     const { cookies } = useCookies();
@@ -117,6 +117,7 @@ export const useAuth = defineStore("auth", () => {
     is_admin,
     is_manager,
     list_users,
+    in_groups,
     getUser,
     logout,
     fetchRoles,

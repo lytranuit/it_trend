@@ -263,6 +263,7 @@ onMounted(() => {
   Api.objects().then((res) => {
     objects.value = res;
     waiting.value = false;
+    if (objects.value.length > 0) model.value.object_id = objects.value[0].id;
   });
   // adminApi.actions().then((res) => {
   //   list_action.value = res;

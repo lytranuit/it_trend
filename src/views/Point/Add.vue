@@ -5,8 +5,12 @@
         <section class="card card-fluid">
           <div class="card-header">
             <div class="d-inline-block w-100">
-              <Button label="Tạo mới" icon="pi pi-plus" class="p-button-success p-button-sm mr-2"
-                @click.prevent="submit()"></Button>
+              <Button
+                label="Tạo mới"
+                icon="pi pi-plus"
+                class="p-button-success p-button-sm mr-2"
+                @click.prevent="submit()"
+              ></Button>
             </div>
           </div>
           <div class="card-body">
@@ -22,11 +26,11 @@
 import { ref } from "vue";
 import { onMounted, computed } from "vue";
 
-import Button from 'primevue/button';
+import Button from "primevue/button";
 import PointApi from "../../api/PointApi";
 import { useToast } from "primevue/usetoast";
 import { useRouter } from "vue-router";
-import { usePoint } from '../../stores/Point';
+import { usePoint } from "../../stores/Point";
 import Form from "../../components/Point/Form.vue";
 import { storeToRefs } from "pinia";
 const store_Point = usePoint();
@@ -34,10 +38,11 @@ const { model } = storeToRefs(store_Point);
 const toast = useToast();
 const router = useRouter();
 onMounted(() => {
+  model.value = {};
 });
 const submit = () => {
   if (!vaild()) {
-    alert("Điền đây đủ thông tin (*)!")
+    alert("Điền đây đủ thông tin (*)!");
     return;
   }
   PointApi.Save(model.value).then((res) => {
@@ -67,5 +72,5 @@ const vaild = () => {
   if (!model.value.object_id) return false;
   if (!model.value.target_id) return false;
   return true;
-}
+};
 </script>
