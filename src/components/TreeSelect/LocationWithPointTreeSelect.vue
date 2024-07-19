@@ -1,9 +1,21 @@
 <template>
-  <TreeSelect :options="locationsWithPoint" :multiple="multiple" :modelValue="modelValue" :normalizer="normalizer"
-    :flat="flat" :name="name" :required="required" :value-consists-of="valueConsistsOf" :append-to-body="true"
-    @update:modelValue="emit('update:modelValue', $event)" :disable-branch-nodes="disableBranchNodes"
-    :disabled="disabled" :default-expand-level="defaultExpandLevel" :limit="5"
-    :limitText="(count) => 'và ' + count + ' điểm nữa'">
+  <TreeSelect
+    :options="locationsWithPoint"
+    :multiple="multiple"
+    :modelValue="modelValue"
+    :normalizer="normalizer"
+    :flat="flat"
+    :name="name"
+    :required="required"
+    :value-consists-of="valueConsistsOf"
+    :append-to-body="true"
+    @update:modelValue="emit('update:modelValue', $event)"
+    :disable-branch-nodes="disableBranchNodes"
+    :disabled="disabled"
+    :default-expand-level="defaultExpandLevel"
+    :limit="5"
+    :limitText="(count) => 'và ' + count + ' điểm nữa'"
+  >
   </TreeSelect>
 </template>
 
@@ -45,7 +57,7 @@ const props = defineProps({
   defaultExpandLevel: {
     type: [String, Number],
     default: 0,
-  }
+  },
 });
 const emit = defineEmits(["update:modelValue"]);
 const store = useGeneral();
@@ -54,11 +66,11 @@ const normalizer = (node) => {
   return {
     id: node.id,
     label: node.label,
-  }
-}
+  };
+};
 onMounted(() => {
   Api.locationsWithPoint().then((res) => {
     locationsWithPoint.value = res;
-  })
+  });
 });
 </script>

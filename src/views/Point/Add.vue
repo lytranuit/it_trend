@@ -66,11 +66,12 @@ const submit = () => {
   });
 };
 const vaild = () => {
-  if (!model.value.name) return false;
   if (!model.value.code) return false;
   if (!model.value.location_id) return false;
   if (!model.value.object_id) return false;
-  if (!model.value.target_id) return false;
+  if (model.value.object_id == 2) {
+    if (!model.value.target_id) return false;
+  }
   return true;
 };
 </script>

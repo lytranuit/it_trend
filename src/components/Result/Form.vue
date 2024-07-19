@@ -155,11 +155,13 @@ watch(
 watch(
   target,
   () => {
+    model.value.value = null;
     if (target.value.value_type == "boolean") {
       value_type.value = "checkbox";
       text_true.value = target.value.text_yes;
       text_false.value = target.value.text_no;
-      model.value.value = model.value.value == null ? 0 : model.value.value;
+      model.value.value =
+        model.value.value == null || model.value.value == 0 ? 0 : 1;
     } else if (target.value.value_type == "varchar") {
       value_type.value = "text";
     } else {

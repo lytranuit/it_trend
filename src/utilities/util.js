@@ -18,9 +18,10 @@ const formatTime = (sec) => {
   }
   return formatted;
 };
-const formatPrice = (value) => {
-  let val = (value / 1).toFixed(2).replace(",", ".");
-  return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+const formatPrice = (value, min = 0) => {
+  let formattedNumber = new Intl.NumberFormat('en-US', { maximumFractionDigits: 5, minimumFractionDigits: min }).format(value);
+  return formattedNumber;
 };
 const formatDate = (value, fomat = "YYYY-MM-DD") => {
   return moment(value).format(fomat);
@@ -29,8 +30,8 @@ const formatDate = (value, fomat = "YYYY-MM-DD") => {
 const printTrigger = (link) => {
   $("body").append(
     '<iframe class="iFramePdf" src="' +
-      link +
-      '" style="display:none;"></iframe>'
+    link +
+    '" style="display:none;"></iframe>'
   );
   var getMyFrame = $(".iFramePdf").last()[0];
   console.log(getMyFrame);

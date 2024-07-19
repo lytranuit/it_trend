@@ -90,6 +90,24 @@
                 <template v-else-if="col.data == 'date'">
                   {{ formatDate(slotProps.data[col.data]) }}
                 </template>
+                <template v-else-if="col.data == 'value'">
+                  <template
+                    v-if="slotProps.data.target?.value_type == 'boolean'"
+                  >
+                    <template v-if="slotProps.data.value == 1">
+                      {{ slotProps.data.target?.text_yes }}</template
+                    >
+                    <template v-else>
+                      {{ slotProps.data.target?.text_no }}</template
+                    >
+                  </template>
+                  <template v-else-if="slotProps.data.target?.id == 11">
+                    {{ formatPrice(slotProps.data[col.data], 1) }}</template
+                  >
+                  <template v-else>
+                    {{ formatPrice(slotProps.data[col.data]) }}</template
+                  >
+                </template>
                 <div v-else v-html="slotProps.data[col.data]"></div>
               </template>
               <template
@@ -169,7 +187,7 @@ import Column from "primevue/column"; ////Datatable
 import InputText from "primevue/inputtext";
 import { useConfirm } from "primevue/useconfirm";
 import Loading from "../../components/Loading.vue";
-import { formatDate } from "../../utilities/util";
+import { formatDate, formatPrice } from "../../utilities/util";
 import { useResult } from "../../stores/Result";
 import { storeToRefs } from "pinia";
 import Api from "../../api/Api";
