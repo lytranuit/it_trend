@@ -5,8 +5,12 @@
         <section class="card card-fluid">
           <div class="card-header">
             <div class="d-inline-block w-100">
-              <Button label="Lưu lại" icon="pi pi-save" class="p-button-success p-button-sm mr-2"
-                @click.prevent="submit()"></Button>
+              <Button
+                label="Lưu lại"
+                icon="pi pi-save"
+                class="p-button-success p-button-sm mr-2"
+                @click.prevent="submit()"
+              ></Button>
             </div>
           </div>
           <div class="card-body">
@@ -40,7 +44,7 @@ onMounted(() => {
 
 const submit = () => {
   if (!vaild()) {
-    alert("Điền đây đủ thông tin (*)!")
+    alert("Điền đây đủ thông tin (*)!");
     return;
   }
   PointApi.Save(model.value).then((res) => {
@@ -64,11 +68,12 @@ const submit = () => {
 };
 
 const vaild = () => {
-  if (!model.value.name) return false;
   if (!model.value.code) return false;
   if (!model.value.location_id) return false;
   if (!model.value.object_id) return false;
-  if (!model.value.target_id) return false;
+  if (model.value.object_id == 2) {
+    if (!model.value.target_id) return false;
+  }
   return true;
-}
+};
 </script>

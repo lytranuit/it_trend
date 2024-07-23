@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col-md-10">
           <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-12">
               <div class="form-group">
                 <b>Đối tượng:<i class="text-danger">*</i></b>
                 <div class="pt-1">
@@ -24,7 +24,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-12">
               <div class="form-group">
                 <b>Điểm lấy mẫu:<i class="text-danger">*</i></b>
                 <div class="pt-1">

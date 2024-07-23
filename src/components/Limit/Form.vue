@@ -114,6 +114,18 @@
             </div>
           </div>
         </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <b>Tiêu chuẩn chấp nhận:</b>
+            <div class="pt-1">
+              <input
+                class="form-control form-control-sm"
+                v-model="model.standard_limit"
+                type="number"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
