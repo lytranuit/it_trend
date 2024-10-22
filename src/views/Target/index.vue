@@ -2,46 +2,98 @@
   <div class="row clearfix">
     <div class="col-12">
       <h5 class="card-header drag-handle">
-        <Button label="Tạo mới" icon="pi pi-plus" class="p-button-success p-button-sm mr-2" @click="openNew"></Button>
+        <Button
+          label="Tạo mới"
+          icon="pi pi-plus"
+          class="p-button-success p-button-sm mr-2"
+          @click="openNew"
+        ></Button>
         <PopupAdd @save="loadLazyData"></PopupAdd>
+
+        <Button
+          label="Xuất"
+          icon="pi pi-file-excel"
+          class="p-button-warning p-button-sm mr-2"
+          @click="exportCSV"
+        ></Button>
       </h5>
       <section class="card card-fluid">
         <div class="card-body" style="overflow: auto; position: relative">
-          <DataTable class="p-datatable-customers" showGridlines :value="datatable" :lazy="true" ref="dt" v-model:selection="selectedProducts" :paginator="true"
-            :rowsPerPageOptions="[10, 50, 100]" :rows="rows" :totalRecords="totalRecords" @page="onPage($event)"
-            :rowHover="true" :loading="loading" responsiveLayout="scroll" :resizableColumns="true"
-            columnResizeMode="expand" v-model:filters="filters" filterDisplay="menu">
+          <DataTable
+            class="p-datatable-customers"
+            showGridlines
+            :value="datatable"
+            :lazy="true"
+            ref="dt"
+            v-model:selection="selectedProducts"
+            :paginator="true"
+            :rowsPerPageOptions="[10, 50, 100]"
+            :rows="rows"
+            :totalRecords="totalRecords"
+            @page="onPage($event)"
+            :rowHover="true"
+            :loading="loading"
+            responsiveLayout="scroll"
+            :resizableColumns="true"
+            columnResizeMode="expand"
+            v-model:filters="filters"
+            filterDisplay="menu"
+          >
             <template #header>
               <div style="width: 200px">
-                <TreeSelect :options="columns" v-model="showing" multiple :limit="0"
-                  :limitText="(count) => 'Hiển thị: ' + count + ' cột'">
+                <TreeSelect
+                  :options="columns"
+                  v-model="showing"
+                  multiple
+                  :limit="0"
+                  :limitText="(count) => 'Hiển thị: ' + count + ' cột'"
+                >
                 </TreeSelect>
               </div>
             </template>
 
             <template #empty> Không có dữ liệu. </template>
-            <Column v-for="col of selectedColumns" :field="col.data" :header="col.label" :key="col.data"
-              :showFilterMatchModes="false">
+            <Column
+              v-for="col of selectedColumns"
+              :field="col.data"
+              :header="col.label"
+              :key="col.data"
+              :showFilterMatchModes="false"
+            >
               <template #body="slotProps">
                 <template v-if="col.data == 'id'">
-                  <a class="" @click="edit(slotProps.data)" href="#"> <i class="fas fa-pencil-alt mr-2"></i>
-                    {{ slotProps.data[col.data] }}</a>
+                  <a class="" @click="edit(slotProps.data)" href="#">
+                    <i class="fas fa-pencil-alt mr-2"></i>
+                    {{ slotProps.data[col.data] }}</a
+                  >
                 </template>
                 <template v-else-if="col.data == 'name'">
                   <p>{{ slotProps.data[col.data] }}</p>
-                  <p><i>{{ slotProps.data['name_en'] }}</i></p>
+                  <p>
+                    <i>{{ slotProps.data["name_en"] }}</i>
+                  </p>
                 </template>
                 <div v-else v-html="slotProps.data[col.data]"></div>
               </template>
-              <template #filter="{ filterModel, filterCallback }" v-if="col.filter == true">
-                <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
-                  class="p-column-filter" />
+              <template
+                #filter="{ filterModel, filterCallback }"
+                v-if="col.filter == true"
+              >
+                <InputText
+                  type="text"
+                  v-model="filterModel.value"
+                  @keydown.enter="filterCallback()"
+                  class="p-column-filter"
+                />
               </template>
             </Column>
             <Column style="width: 1rem">
               <template #body="slotProps">
-                <a class="p-link text-danger font-16" @click="confirmDelete(slotProps.data['id'])"><i
-                    class="pi pi-trash"></i></a>
+                <a
+                  class="p-link text-danger font-16"
+                  @click="confirmDelete(slotProps.data['id'])"
+                  ><i class="pi pi-trash"></i
+                ></a>
               </template>
             </Column>
           </DataTable>
@@ -81,8 +133,6 @@ const edit = (m) => {
   visibleDialog.value = true;
 };
 
-
-
 const confirm = useConfirm();
 const datatable = ref();
 const columns = ref([
@@ -111,7 +161,7 @@ const columns = ref([
     id: 4,
     label: "Kiểu dữ liệu",
     data: "value_type",
-    className: "text-center"
+    className: "text-center",
   },
 ]);
 const filters = ref({
@@ -142,7 +192,9 @@ const lazyParams = computed(() => {
   };
 });
 const dt = ref(null);
-
+const exportCSV = () => {
+  dt.value.exportCSV();
+};
 ////Data table
 const loadLazyData = () => {
   loading.value = true;

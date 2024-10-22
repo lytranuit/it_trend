@@ -8,7 +8,7 @@
     <div class="row mb-2">
       <div class="field col">
         <label for="name">Tên<span class="text-danger">*</span></label>
-        <InputText
+        <input-text
           id="name"
           class="p-inputtext-sm"
           v-model.trim="model.name"
@@ -79,6 +79,16 @@
       </div>
     </div>
 
+    <div class="row mb-2">
+      <div class="field col">
+        <label for="name">Loại</label>
+        <select class="form-control form-control-sm" v-model="model.type">
+          <option value="visinh">Vi sinh</option>
+          <option value="hoaly">Hóa lý</option>
+          <option value="codien">Cơ điện</option>
+        </select>
+      </div>
+    </div>
     <template #footer>
       <Button
         label="Cancel"

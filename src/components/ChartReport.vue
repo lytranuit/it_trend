@@ -44,6 +44,8 @@ const chart = (dataChart) => {
           },
           ticks: {
             color: "#334155",
+            maxRotation: 90,
+            minRotation: 90,
           },
           grid: {
             color: "#e2e8f0",
