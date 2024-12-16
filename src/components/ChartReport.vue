@@ -13,7 +13,7 @@ const props = defineProps({
   id: String,
 });
 const chart = (dataChart) => {
-  console.log(dataChart);
+  // console.log(dataChart);
   return {
     type: "line",
     options: {

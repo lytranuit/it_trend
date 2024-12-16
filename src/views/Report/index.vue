@@ -284,6 +284,7 @@
                         class="date-custom"
                         showIcon
                         selectionMode="range"
+                        showButtonBar
                       />
                     </div>
                   </div>
@@ -445,6 +446,9 @@ watch(
     if (newValue) {
       model.value.date_from_prev = newValue[0];
       model.value.date_to_prev = newValue[1];
+    } else {
+      model.value.date_from_prev = null;
+      model.value.date_to_prev = null;
     }
   },
   { immediate: true }
@@ -570,6 +574,8 @@ const drawChart = () => {
     return;
   }
   waiting.value = true;
+  // console.log(model.value);
+  // return;
   reportApi.drawChart(model.value).then((res) => {
     waiting.value = false;
     groups.value = res.data;
